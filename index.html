@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCT CRM — Precision Coatings of Texas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:    #080808;
+  --dark:     #0e0e0e;
+  --surface:  #131313;
+  --card:     #181818;
+  --card2:    #1e1e1e;
+  --border:   #252525;
+  --border2:  #2e2e2e;
+  --red:      #c0121c;
+  --red-hot:  #e01a24;
+  --red-dim:  rgba(192,18,28,.12);
+  --silver:   #b4b8c0;
+  --silver-lt:#d4d8e0;
+  --chrome:   #c8ccd4;
+  --white:    #f0f0f0;
+  --muted:    #5a5a5a;
+  --text:     #c0c0c0;
+  --text2:    #888;
+  --green:    #16a34a;
+  --amber:    #d97706;
+  --blue:     #2563eb;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--text);display:flex;flex-direction:column;}
+
+/* ── TOPBAR ── */
+.topbar{
+  height:58px;flex-shrink:0;
+  background:var(--dark);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;position:relative;
+}
+.topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--red) 0%,transparent 40%);}
+
+/* PCT Shield SVG logo inline */
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.brand-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--white);line-height:1;}
+.brand-name span{color:var(--red);}
+.brand-sub{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:1px;}
+
+.nav-tabs{display:flex;gap:2px;}
+.nav-tab{
+  background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--muted);padding:7px 16px;
+  border-radius:2px;transition:all .15s;
+}
+.nav-tab:hover{color:var(--text);background:rgba(255,255,255,.04);}
+.nav-tab.active{color:var(--red);background:var(--red-dim);}
+
+.topbar-right{display:flex;align-items:center;gap:16px;}
+.topbar-date{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.user-av{
+  width:32px;height:32px;
+  background:linear-gradient(135deg,var(--red),#7a0a10);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;cursor:pointer;
+}
+
+/* ── LAYOUT ── */
+.app-body{display:flex;flex:1;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:220px;flex-shrink:0;
+  background:var(--dark);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;
+  padding:20px 0;
+}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);}
+.sidebar-section{margin-bottom:28px;}
+.sidebar-label{
+  font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);padding:0 18px;margin-bottom:8px;
+}
+.sidebar-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 18px;font-size:13px;font-weight:500;
+  color:var(--text2);cursor:pointer;transition:all .15s;
+  border-left:2px solid transparent;
+  border-radius:0;
+}
+.sidebar-item:hover{color:var(--text);background:rgba(255,255,255,.03);}
+.sidebar-item.active{color:var(--white);background:var(--red-dim);border-left-color:var(--red);}
+.sidebar-item .si-icon{font-size:14px;width:16px;text-align:center;flex-shrink:0;}
+.sidebar-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;}
+.sidebar-badge.green{background:var(--green);}
+.sidebar-badge.amber{background:var(--amber);}
+
+/* Quick Stats in sidebar */
+.sidebar-stat-box{margin:0 12px;background:var(--surface);border:1px solid var(--border);padding:14px;border-left:2px solid var(--red);}
+.ssb-val{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--red);line-height:1;}
+.ssb-lbl{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.ssb-delta{font-size:11px;color:var(--green);margin-top:6px;font-weight:600;}
+
+/* ── MAIN CONTENT ── */
+.main{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:20px;}
+.main::-webkit-scrollbar{width:4px;}
+.main::-webkit-scrollbar-thumb{background:var(--border2);}
+
+/* ── VIEW PANELS ── */
+.view{display:none;}
+.view.active{display:contents;}
+
+/* ── METRIC ROW ── */
+.metrics-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.metric-card{
+  background:var(--card);border:1px solid var(--border);
+  padding:18px 16px;position:relative;overflow:hidden;
+  border-top:2px solid var(--border);
+  transition:border-color .2s;
+}
+.metric-card:hover{border-color:var(--border2);}
+.metric-card.red{border-top-color:var(--red);}
+.metric-card.silver{border-top-color:var(--silver);}
+.metric-card.green{border-top-color:var(--green);}
+.metric-card.amber{border-top-color:var(--amber);}
+.metric-card.blue{border-top-color:var(--blue);}
+.metric-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.metric-val{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--white);line-height:1;}
+.metric-delta{font-size:11px;margin-top:6px;font-weight:600;}
+.metric-delta.up{color:var(--green);}
+.metric-delta.dn{color:var(--red);}
+.metric-ghost{position:absolute;right:-8px;top:-4px;font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(255,255,255,.02);line-height:1;pointer-events:none;}
+
+/* ── PIPELINE STAGES ── */
+.pipeline-bar{background:var(--card);border:1px solid var(--border);padding:18px 20px;}
+.pipeline-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.panel-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--silver-lt);}
+.stage-row{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;}
+.stage-col{text-align:center;cursor:pointer;padding:10px 6px;transition:background .15s;border-radius:2px;}
+.stage-col:hover{background:rgba(255,255,255,.03);}
+.stage-name{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.stage-count{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-bottom:6px;}
+.stage-bar{height:3px;border-radius:1px;margin:0 auto;max-width:48px;}
+.stage-pct{font-size:10px;color:var(--muted);margin-top:4px;}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 340px;gap:16px;}
+
+/* ── PANEL ── */
+.panel{background:var(--card);border:1px solid var(--border);}
+.panel-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid var(--border);
+}
+.panel-actions{display:flex;gap:8px;}
+
+/* ── BUTTONS ── */
+.btn{
+  border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+  font-size:11.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  padding:8px 18px;transition:all .15s;
+  clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+}
+.btn-red{background:var(--red);color:#fff;}
+.btn-red:hover{background:var(--red-hot);}
+.btn-ghost{background:transparent;color:var(--silver);border:1px solid var(--border2);}
+.btn-ghost:hover{border-color:var(--silver);color:var(--white);}
+.btn-sm{font-size:10px;padding:6px 14px;}
+
+/* ── SEARCH / FILTER ROW ── */
+.filter-row{display:flex;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);}
+.search-input,.filter-select{
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;
+  padding:7px 12px;outline:none;transition:border-color .15s;
+}
+.search-input{flex:1;}
+.search-input:focus,.filter-select:focus{border-color:var(--red);}
+.filter-select{cursor:pointer;}
+.filter-select option{background:var(--dark);}
+
+/* ── CLIENT TABLE ── */
+.client-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.client-table thead th{
+  padding:10px 18px;text-align:left;
+  font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);border-bottom:1px solid var(--border);
+  cursor:pointer;user-select:none;
+}
+.client-table thead th:hover{color:var(--silver);}
+.client-table tbody tr{border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
+.client-table tbody tr:hover{background:rgba(192,18,28,.05);}
+.client-table tbody td{padding:11px 18px;vertical-align:middle;}
+.client-name{font-weight:600;color:var(--white);font-size:13px;}
+.client-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+
+/* ── STATUS PILLS ── */
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:2px;}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;}
+.pill-new{background:rgba(37,99,235,.15);color:#60a5fa;}.pill-new::before{background:#60a5fa;}
+.pill-estimate{background:rgba(217,119,6,.15);color:#fbbf24;}.pill-estimate::before{background:#fbbf24;}
+.pill-scheduled{background:rgba(139,92,246,.15);color:#a78bfa;}.pill-scheduled::before{background:#a78bfa;}
+.pill-inprogress{background:rgba(192,18,28,.15);color:#f87171;}.pill-inprogress::before{background:#f87171;}
+.pill-complete{background:rgba(22,163,74,.15);color:#4ade80;}.pill-complete::before{background:#4ade80;}
+.pill-followup{background:rgba(180,184,192,.12);color:#b4b8c0;}.pill-followup::before{background:#b4b8c0;}
+
+/* Service type tags */
+.svc-tag{display:inline-block;padding:2px 8px;font-size:10px;font-weight:600;letter-spacing:.5px;background:rgba(180,184,192,.08);color:var(--silver);border:1px solid var(--border2);}
+
+/* ── RIGHT SIDEBAR PANELS ── */
+.right-panels{display:flex;flex-direction:column;gap:12px;}
+.mini-panel{background:var(--card);border:1px solid var(--border);}
+.mini-panel-hdr{padding:12px 14px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--silver);}
+.mini-panel-body{padding:14px;}
+
+/* Activity feed */
+.activity-item{display:flex;gap:10px;margin-bottom:14px;}
+.activity-item:last-child{margin-bottom:0;}
+.act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.act-text{font-size:12px;color:var(--text);line-height:1.5;}
+.act-time{font-size:10px;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace;}
+
+/* Upcoming jobs */
+.job-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;}
+.job-item:last-child{border-bottom:none;padding-bottom:0;}
+.job-date{background:var(--red-dim);border:1px solid rgba(192,18,28,.25);padding:6px 8px;text-align:center;flex-shrink:0;}
+.job-day{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);line-height:1;}
+.job-mo{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.job-name{font-size:13px;font-weight:600;color:var(--white);}
+.job-detail{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* Revenue mini chart bars */
+.rev-bars{display:flex;gap:4px;align-items:flex-end;height:52px;margin-top:8px;}
+.rev-bar{flex:1;border-radius:1px 1px 0 0;transition:opacity .2s;cursor:pointer;}
+.rev-bar:hover{opacity:.8;}
+.rev-months{display:flex;gap:4px;margin-top:4px;}
+.rev-month{flex:1;font-size:8px;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;}
+
+/* ── CLIENT DETAIL MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  z-index:500;display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--dark);border:1px solid var(--border2);
+  border-top:2px solid var(--red);
+  width:680px;max-height:86vh;overflow-y:auto;
+  box-shadow:0 32px 80px rgba(0,0,0,.8);
+}
+.modal::-webkit-scrollbar{width:3px;}
+.modal::-webkit-scrollbar-thumb{background:var(--border2);}
+.modal-hdr{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--white);}
+.modal-x{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;transition:color .15s;line-height:1;}
+.modal-x:hover{color:var(--red);}
+.modal-body{padding:24px;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.modal-field label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
+.modal-field input,.modal-field select,.modal-field textarea{
+  width:100%;background:var(--surface);border:1px solid var(--border2);
+  color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;
+  padding:9px 12px;outline:none;transition:border-color .15s;resize:vertical;
+}
+.modal-field input:focus,.modal-field select:focus,.modal-field textarea:focus{border-color:var(--red);}
+.modal-field select option{background:var(--dark);}
+.modal-section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--silver);margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;}
+
+/* ── ADD CLIENT FORM ── */
+.add-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.add-overlay.open{display:flex;}
+.add-modal{background:var(--dark);border:1px solid var(--border2);border-top:2px solid var(--red);width:560px;max-height:88vh;overflow-y:auto;}
+
+/* ── NOTES / TIMELINE ── */
+.timeline-item{display:flex;gap:12px;margin-bottom:16px;}
+.tl-line-wrap{display:flex;flex-direction:column;align-items:center;gap:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.tl-line{width:1px;flex:1;background:var(--border);margin-top:4px;}
+.tl-content{}
+.tl-meta{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:3px;}
+.tl-text{font-size:13px;color:var(--text);line-height:1.5;}
+
+/* ── ESTIMATES TAB ── */
+.est-card{background:var(--surface);border:1px solid var(--border);padding:16px;margin-bottom:10px;}
+.est-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.est-name{font-size:14px;font-weight:600;color:var(--white);}
+.est-price{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);}
+.est-detail{font-size:12px;color:var(--muted);}
+.est-actions{display:flex;gap:8px;margin-top:12px;}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:900;
+  background:var(--card);border:1px solid var(--border2);border-left:3px solid var(--green);
+  padding:12px 18px;font-size:13px;color:var(--white);
+  transform:translateY(80px);opacity:0;transition:all .3s ease;
+  pointer-events:none;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.red{border-left-color:var(--red);}
+
+/* ── SCROLLBAR GLOBAL ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1200px){
+  .metrics-row{grid-template-columns:repeat(3,1fr);}
+  .two-col{grid-template-columns:1fr;}
+  .right-panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+}
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .metrics-row{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<div class="topbar">
+  <div class="brand">
+    <!-- PCT Shield Mark (inline SVG simplified) -->
+    <svg width="36" height="42" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 1L34 8V22C34 31 26 38 18 41C10 38 2 31 2 22V8L18 1Z" fill="#1a1a1a" stroke="#3a3a3a" stroke-width="1"/>
+      <path d="M18 4L31 10V22C31 29.5 25 35.5 18 38C11 35.5 5 29.5 5 22V10L18 4Z" fill="#111" stroke="#c0121c" stroke-width="1.2"/>
+      <path d="M18 7L28 12V21C28 27.5 23.5 33 18 35.5C12.5 33 8 27.5 8 21V12L18 7Z" fill="#c0121c" opacity="0.85"/>
+      <!-- P -->
+      <text x="8.5" y="26" font-family="Arial Black,sans-serif" font-size="12" font-weight="900" fill="#f0f0f0">P</text>
+      <!-- C -->
+      <text x="15.5" y="26" font-family="Arial Black,sans-serif" font-size="12" font-weight="900" fill="#fff">C</text>
+      <!-- T -->
+      <text x="22.5" y="26" font-family="Arial Black,sans-serif" font-size="12" font-weight="900" fill="#f0f0f0">T</text>
+      <!-- Top highlight -->
+      <path d="M18 4L31 10V13L18 7L5 13V10L18 4Z" fill="rgba(200,204,212,0.15)"/>
+    </svg>
+    <div>
+      <div class="brand-name">PRECISION <span>COATINGS</span></div>
+      <div class="brand-sub">Client Management System</div>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('dashboard',this)">Dashboard</button>
+    <button class="nav-tab" onclick="switchView('clients',this)">Clients</button>
+    <button class="nav-tab" onclick="switchView('estimates',this)">Estimates</button>
+    <button class="nav-tab" onclick="switchView('schedule',this)">Schedule</button>
+  </div>
+
+  <div class="topbar-right">
+    <div class="topbar-date" id="topDate"></div>
+    <div class="user-av">PCT</div>
+  </div>
+</div>
+
+<div class="app-body">
+
+<!-- ── SIDEBAR ── -->
+<div class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Pipeline</div>
+    <div class="sidebar-item active" onclick="filterByStage('')"><span class="si-icon">◈</span> All Clients <span class="sidebar-badge" id="sb-all">0</span></div>
+    <div class="sidebar-item" onclick="filterByStage('New Lead')"><span class="si-icon">◎</span> New Leads <span class="sidebar-badge" id="sb-new">0</span></div>
+    <div class="sidebar-item" onclick="filterByStage('Estimate Sent')"><span class="si-icon">◉</span> Estimate Sent <span class="sidebar-badge amber" id="sb-est">0</span></div>
+    <div class="sidebar-item" onclick="filterByStage('Scheduled')"><span class="si-icon">◈</span> Scheduled <span class="sidebar-badge" style="background:#7c3aed;" id="sb-sch">0</span></div>
+    <div class="sidebar-item" onclick="filterByStage('In Progress')"><span class="si-icon">▶</span> In Progress <span class="sidebar-badge" id="sb-ip">0</span></div>
+    <div class="sidebar-item" onclick="filterByStage('Complete')"><span class="si-icon">✓</span> Complete <span class="sidebar-badge green" id="sb-done">0</span></div>
+    <div class="sidebar-item" onclick="filterByStage('Follow-Up')"><span class="si-icon">↺</span> Follow-Up <span class="sidebar-badge" style="background:#555;" id="sb-fu">0</span></div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Services</div>
+    <div class="sidebar-item" onclick="filterByService('Garage')"><span class="si-icon">🏠</span> Garage Floors</div>
+    <div class="sidebar-item" onclick="filterByService('Patio')"><span class="si-icon">☀</span> Patios</div>
+    <div class="sidebar-item" onclick="filterByService('Commercial')"><span class="si-icon">🏢</span> Commercial</div>
+    <div class="sidebar-item" onclick="filterByService('Tile')"><span class="si-icon">⬛</span> Tile Resurfacing</div>
+    <div class="sidebar-item" onclick="filterByService('Bathroom')"><span class="si-icon">◻</span> Bathroom</div>
+    <div class="sidebar-item" onclick="filterByService('Kitchen')"><span class="si-icon">◼</span> Kitchen</div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Revenue</div>
+    <div class="sidebar-stat-box">
+      <div class="ssb-val" id="sb-rev">$0</div>
+      <div class="ssb-lbl">Month Total</div>
+      <div class="ssb-delta" id="sb-rev-delta">Loading...</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section" style="margin-top:auto;padding-top:16px;">
+    <div class="sidebar-item" onclick="openAdd()"><span class="si-icon">+</span> Add New Client</div>
+    <div class="sidebar-item"><span class="si-icon">⚙</span> Settings</div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- ════ DASHBOARD VIEW ════ -->
+  <div class="view active" id="view-dashboard">
+
+    <!-- Metrics -->
+    <div class="metrics-row">
+      <div class="metric-card red">
+        <div class="metric-ghost">J</div>
+        <div class="metric-label">Active Jobs</div>
+        <div class="metric-val" id="m-active">0</div>
+        <div class="metric-delta up" id="m-active-d">↑ this month</div>
+      </div>
+      <div class="metric-card silver">
+        <div class="metric-ghost">E</div>
+        <div class="metric-label">Estimates Out</div>
+        <div class="metric-val" id="m-est">0</div>
+        <div class="metric-delta up">Ready to close</div>
+      </div>
+      <div class="metric-card green">
+        <div class="metric-ghost">R</div>
+        <div class="metric-label">Month Revenue</div>
+        <div class="metric-val" id="m-rev">$0</div>
+        <div class="metric-delta up" id="m-rev-d">↑ vs last month</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="metric-ghost">C</div>
+        <div class="metric-label">Closed / Won</div>
+        <div class="metric-val" id="m-closed">0</div>
+        <div class="metric-delta up">This month</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="metric-ghost">L</div>
+        <div class="metric-label">New Leads</div>
+        <div class="metric-val" id="m-leads">0</div>
+        <div class="metric-delta up">This week</div>
+      </div>
+    </div>
+
+    <!-- Pipeline stages bar -->
+    <div class="pipeline-bar">
+      <div class="pipeline-header">
+        <span class="panel-title">Pipeline Overview</span>
+        <button class="btn btn-red btn-sm" onclick="openAdd()">+ New Client</button>
+      </div>
+      <div class="stage-row">
+        <div class="stage-col"><div class="stage-name">New Lead</div><div class="stage-count" id="ps-new">0</div><div class="stage-bar" style="background:#2563eb;width:36px;"></div></div>
+        <div class="stage-col"><div class="stage-name">Estimate Sent</div><div class="stage-count" id="ps-est">0</div><div class="stage-bar" style="background:#d97706;width:36px;"></div></div>
+        <div class="stage-col"><div class="stage-name">Scheduled</div><div class="stage-count" id="ps-sch">0</div><div class="stage-bar" style="background:#7c3aed;width:36px;"></div></div>
+        <div class="stage-col"><div class="stage-name">In Progress</div><div class="stage-count" id="ps-ip">0</div><div class="stage-bar" style="background:#c0121c;width:36px;"></div></div>
+        <div class="stage-col"><div class="stage-name">Complete</div><div class="stage-count" id="ps-done">0</div><div class="stage-bar" style="background:#16a34a;width:36px;"></div></div>
+        <div class="stage-col"><div class="stage-name">Follow-Up</div><div class="stage-count" id="ps-fu">0</div><div class="stage-bar" style="background:#555;width:36px;"></div></div>
+      </div>
+    </div>
+
+    <!-- Two col: client table + right panels -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-hdr">
+          <span class="panel-title">Client Pipeline</span>
+          <div class="panel-actions">
+            <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export</button>
+            <button class="btn btn-red btn-sm" onclick="openAdd()">+ Add Client</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <input class="search-input" id="dashSearch" placeholder="Search name, phone, service..." oninput="renderTable()">
+          <select class="filter-select" id="dashStage" onchange="renderTable()">
+            <option value="">All Stages</option>
+            <option>New Lead</option><option>Estimate Sent</option>
+            <option>Scheduled</option><option>In Progress</option>
+            <option>Complete</option><option>Follow-Up</option>
+          </select>
+          <select class="filter-select" id="dashService" onchange="renderTable()">
+            <option value="">All Services</option>
+            <option>Garage</option><option>Patio</option><option>Commercial</option>
+            <option>Tile</option><option>Bathroom</option><option>Kitchen</option>
+          </select>
+        </div>
+        <table class="client-table">
+          <thead>
+            <tr>
+              <th onclick="sortBy('name')">Client ↕</th>
+              <th onclick="sortBy('service')">Service</th>
+              <th onclick="sortBy('stage')">Stage</th>
+              <th onclick="sortBy('value')">Value ↕</th>
+              <th>Location</th>
+              <th onclick="sortBy('updated')">Updated ↕</th>
+            </tr>
+          </thead>
+          <tbody id="clientBody"></tbody>
+        </table>
+        <div style="padding:10px 18px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);" id="tableFooter">0 clients</div>
+      </div>
+
+      <div class="right-panels">
+        <!-- Upcoming Jobs -->
+        <div class="mini-panel">
+          <div class="mini-panel-hdr">Upcoming Jobs</div>
+          <div class="mini-panel-body" id="upcomingJobs"></div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="mini-panel">
+          <div class="mini-panel-hdr">Recent Activity</div>
+          <div class="mini-panel-body" id="activityFeed"></div>
+        </div>
+
+        <!-- Revenue chart -->
+        <div class="mini-panel">
+          <div class="mini-panel-hdr">Revenue — Last 6 Months</div>
+          <div class="mini-panel-body">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+              <span style="font-size:11px;color:var(--muted);">Total YTD</span>
+              <span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);" id="ytdRev">$0</span>
+            </div>
+            <div class="rev-bars" id="revBars"></div>
+            <div class="rev-months" id="revMonths"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /dashboard view -->
+
+  <!-- ════ CLIENTS VIEW ════ -->
+  <div class="view" id="view-clients">
+    <div class="panel">
+      <div class="panel-hdr">
+        <span class="panel-title">All Clients</span>
+        <div class="panel-actions">
+          <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export CSV</button>
+          <button class="btn btn-red btn-sm" onclick="openAdd()">+ Add Client</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <input class="search-input" id="clSearch" placeholder="Search clients..." oninput="renderClientView()">
+        <select class="filter-select" id="clStage" onchange="renderClientView()">
+          <option value="">All Stages</option>
+          <option>New Lead</option><option>Estimate Sent</option>
+          <option>Scheduled</option><option>In Progress</option>
+          <option>Complete</option><option>Follow-Up</option>
+        </select>
+        <select class="filter-select" id="clService" onchange="renderClientView()">
+          <option value="">All Services</option>
+          <option>Garage</option><option>Patio</option><option>Commercial</option>
+          <option>Tile</option><option>Bathroom</option><option>Kitchen</option>
+        </select>
+      </div>
+      <table class="client-table">
+        <thead>
+          <tr>
+            <th>Client</th><th>Phone</th><th>Service</th><th>Stage</th>
+            <th>Value</th><th>Location</th><th>Date Added</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="clientViewBody"></tbody>
+      </table>
+      <div style="padding:10px 18px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);" id="cvFooter">0 clients</div>
+    </div>
+  </div>
+
+  <!-- ════ ESTIMATES VIEW ════ -->
+  <div class="view" id="view-estimates">
+    <div class="panel">
+      <div class="panel-hdr">
+        <span class="panel-title">Estimates</span>
+        <button class="btn btn-red btn-sm" onclick="openAdd()">+ New Estimate</button>
+      </div>
+      <div id="estimatesBody" style="padding:20px;"></div>
+    </div>
+  </div>
+
+  <!-- ════ SCHEDULE VIEW ════ -->
+  <div class="view" id="view-schedule">
+    <div class="panel">
+      <div class="panel-hdr">
+        <span class="panel-title">Job Schedule</span>
+        <button class="btn btn-red btn-sm" onclick="openAdd()">+ Schedule Job</button>
+      </div>
+      <div id="scheduleBody" style="padding:20px;"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app-body -->
+
+<!-- ── CLIENT DETAIL MODAL ── -->
+<div class="modal-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="modal" id="detailModal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="detailName">Client Name</div>
+      <button class="modal-x" onclick="closeDetailDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-grid" id="detailGrid"></div>
+      <div class="modal-section-title">Job Notes & Timeline</div>
+      <div id="detailTimeline"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <input id="noteInput" class="search-input" style="flex:1;" placeholder="Add a note...">
+        <button class="btn btn-red btn-sm" onclick="addNote()">Add Note</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeDetailDirect()">Close</button>
+      <button class="btn btn-red btn-sm" onclick="saveDetail()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD CLIENT MODAL ── -->
+<div class="add-overlay" id="addOverlay" onclick="closeAdd(event)">
+  <div class="add-modal">
+    <div class="modal-hdr">
+      <div class="modal-title">New Client</div>
+      <button class="modal-x" onclick="closeAddDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-grid">
+        <div class="modal-field"><label>Full Name *</label><input id="af-name" placeholder="John Smith"></div>
+        <div class="modal-field"><label>Phone *</label><input id="af-phone" placeholder="512-555-0100"></div>
+        <div class="modal-field"><label>Email</label><input id="af-email" placeholder="john@email.com"></div>
+        <div class="modal-field"><label>Location / City</label><input id="af-loc" placeholder="Austin, TX"></div>
+        <div class="modal-field"><label>Service Type *</label>
+          <select id="af-service">
+            <option>Garage</option><option>Patio</option><option>Commercial</option>
+            <option>Tile</option><option>Bathroom</option><option>Kitchen</option><option>Multi-Service</option>
+          </select>
+        </div>
+        <div class="modal-field"><label>Coating System</label>
+          <select id="af-coating">
+            <option>Vinyl Flake</option><option>Metallic Epoxy</option><option>Solid Color</option>
+            <option>Natural Accent</option><option>Multi-Spec</option><option>Stain</option><option>TBD</option>
+          </select>
+        </div>
+        <div class="modal-field"><label>Est. Value ($)</label><input id="af-value" type="number" placeholder="1500"></div>
+        <div class="modal-field"><label>Sq Footage</label><input id="af-sqft" placeholder="400 sq ft"></div>
+        <div class="modal-field"><label>Stage</label>
+          <select id="af-stage">
+            <option>New Lead</option><option>Estimate Sent</option><option>Scheduled</option>
+            <option>In Progress</option><option>Complete</option><option>Follow-Up</option>
+          </select>
+        </div>
+        <div class="modal-field"><label>Preferred Date</label><input id="af-date" type="date"></div>
+        <div class="modal-field" style="grid-column:span 2;"><label>Notes</label>
+          <textarea id="af-notes" rows="3" placeholder="Surface condition, special requirements, how they found us..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeAddDirect()">Cancel</button>
+      <button class="btn btn-red btn-sm" onclick="addClient()">Add Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+const now = new Date();
+function daysAgo(d){ const x=new Date(); x.setDate(x.getDate()-d); return x.toISOString().split('T')[0]; }
+function daysFwd(d){ const x=new Date(); x.setDate(x.getDate()+d); return x.toISOString().split('T')[0]; }
+
+let clients = [
+  {id:1,name:'Marcus Webb',phone:'512-341-7820',email:'mwebb@email.com',loc:'Cedar Park, TX',service:'Garage',coating:'Vinyl Flake',stage:'In Progress',value:1650,sqft:'480 sq ft',date:daysAgo(3),jobDate:daysFwd(0),notes:[{text:'2-car garage, customer wants charcoal/silver flake. Diamond grind needed.',time:daysAgo(3)},{text:'Diamond grind complete. Base coat applied.',time:daysAgo(1)}]},
+  {id:2,name:'Terri Lundgren',phone:'512-884-2201',email:'tlundgren@gmail.com',loc:'Round Rock, TX',service:'Patio',coating:'Natural Accent',stage:'Scheduled',value:2100,sqft:'620 sq ft',date:daysAgo(6),jobDate:daysFwd(3),notes:[{text:'Outdoor patio + walkway. Wants Texas Sand color. Non-slip additive requested.',time:daysAgo(6)}]},
+  {id:3,name:'Devin Okafor',phone:'512-773-9040',email:'dokafor@work.com',loc:'Austin, TX',service:'Commercial',coating:'Solid Color',stage:'Estimate Sent',value:4800,sqft:'1,400 sq ft',date:daysAgo(8),jobDate:'',notes:[{text:'Warehouse showroom floor. Requesting industrial-grade polyurea. Needs 3-day turnaround.',time:daysAgo(8)}]},
+  {id:4,name:'Priya Nair',phone:'737-208-1155',email:'priya.n@home.net',loc:'Pflugerville, TX',service:'Garage',coating:'Metallic Epoxy',stage:'Complete',value:2400,sqft:'520 sq ft',date:daysAgo(14),jobDate:daysAgo(5),notes:[{text:'Bronze metallic. Customer very satisfied. Referred neighbor.',time:daysAgo(14)},{text:'Job complete. Final walkthrough done. 5-star review received.',time:daysAgo(5)}]},
+  {id:5,name:'Randy Costello',phone:'512-490-3318',email:'rcostello@att.net',loc:'Kyle, TX',service:'Patio',coating:'Stain',stage:'New Lead',value:900,sqft:'260 sq ft',date:daysAgo(1),jobDate:'',notes:[{text:'Cracked patio, wants resurfacing + stain. Budget sensitive.',time:daysAgo(1)}]},
+  {id:6,name:'Stephanie Marsh',phone:'512-661-4490',email:'smarsh@icloud.com',loc:'Austin, TX',service:'Bathroom',coating:'TBD',stage:'Estimate Sent',value:680,sqft:'N/A',date:daysAgo(4),jobDate:'',notes:[{text:'Tub reglazing + vanity refinishing. Wants white gloss finish.',time:daysAgo(4)}]},
+  {id:7,name:'Carlos Fuentes',phone:'512-902-8847',email:'cfuentes@email.com',loc:'Georgetown, TX',service:'Commercial',coating:'Vinyl Flake',stage:'Scheduled',value:6200,sqft:'2,100 sq ft',date:daysAgo(10),jobDate:daysFwd(6),notes:[{text:'Car dealership showroom. Full floor — 2100sqft. Gray/white flake system.',time:daysAgo(10)}]},
+  {id:8,name:'Angela Brooks',phone:'512-774-3302',email:'abrooks@gmail.com',loc:'Buda, TX',service:'Kitchen',coating:'Multi-Spec',stage:'Follow-Up',value:520,sqft:'N/A',date:daysAgo(18),jobDate:'',notes:[{text:'Cabinet refinishing + countertop resurface. Did not respond to estimate.',time:daysAgo(18)},{text:'Second follow-up sent.',time:daysAgo(7)}]},
+  {id:9,name:'Joel Tanner',phone:'512-380-9921',email:'jtanner@work.net',loc:'Leander, TX',service:'Garage',coating:'Solid Color',stage:'Complete',value:1350,sqft:'400 sq ft',date:daysAgo(22),jobDate:daysAgo(12),notes:[{text:'Single car garage. Pearl white. Quick 1-day job.',time:daysAgo(22)},{text:'Complete. Customer happy.',time:daysAgo(12)}]},
+  {id:10,name:'Monica Reyes',phone:'737-441-0082',email:'mreyes@icloud.com',loc:'Austin, TX',service:'Tile',coating:'Solid Color',stage:'New Lead',value:1100,sqft:'320 sq ft',date:daysAgo(2),jobDate:'',notes:[{text:'Kitchen tile resurfacing. Wants to match existing decor — needs color consult.',time:daysAgo(2)}]},
+  {id:11,name:'Derek Kim',phone:'512-556-1190',email:'dkim@biz.com',loc:'Round Rock, TX',service:'Commercial',coating:'Polyurea',stage:'In Progress',value:3600,sqft:'980 sq ft',date:daysAgo(9),jobDate:daysAgo(1),notes:[{text:'Fitness studio rubber floor over concrete. Needs heavy-duty system.',time:daysAgo(9)},{text:'Surface prep done. Primer coat applied.',time:daysAgo(2)}]},
+  {id:12,name:'Tasha Williamson',phone:'512-203-7755',email:'twill@home.com',loc:'Cedar Park, TX',service:'Patio',coating:'Vinyl Flake',stage:'Estimate Sent',value:1800,sqft:'540 sq ft',date:daysAgo(5),jobDate:'',notes:[{text:'Backyard patio, pool deck area. Blue/gray flake. Needs non-slip additive.',time:daysAgo(5)}]},
+];
+
+let activity = [
+  {text:'Job completed — Priya Nair (Metallic Garage)', time:'2h ago', color:'#16a34a'},
+  {text:'New lead added — Monica Reyes (Tile)', time:'4h ago', color:'#2563eb'},
+  {text:'Estimate sent — Tasha Williamson ($1,800)', time:'Yesterday', color:'#d97706'},
+  {text:'Follow-up sent — Angela Brooks', time:'2 days ago', color:'#555'},
+  {text:'Job started — Derek Kim (Commercial)', time:'3 days ago', color:'#c0121c'},
+  {text:'Estimate sent — Devin Okafor ($4,800)', time:'4 days ago', color:'#d97706'},
+];
+
+const revData = [
+  {m:'Nov',v:8200},{m:'Dec',v:11400},{m:'Jan',v:7600},{m:'Feb',v:9800},{m:'Mar',v:13200},{m:'Apr',v:6300},
+];
+
+let sortCol = 'date', sortDir = -1;
+let activeStageFilter = '';
+let activeServiceFilter = '';
+let currentDetailId = null;
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+function init(){
+  document.getElementById('topDate').textContent = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+  refreshMetrics();
+  renderTable();
+  renderSidebar();
+  renderUpcoming();
+  renderActivity();
+  renderRevChart();
+}
+
+// ══════════════════════════════════════════
+// METRICS
+// ══════════════════════════════════════════
+function refreshMetrics(){
+  const active = clients.filter(c=>c.stage==='In Progress').length;
+  const est = clients.filter(c=>c.stage==='Estimate Sent').length;
+  const closed = clients.filter(c=>c.stage==='Complete').length;
+  const leads = clients.filter(c=>c.stage==='New Lead').length;
+  const rev = clients.filter(c=>c.stage==='Complete').reduce((s,c)=>s+c.value,0);
+
+  document.getElementById('m-active').textContent = active;
+  document.getElementById('m-est').textContent = est;
+  document.getElementById('m-closed').textContent = closed;
+  document.getElementById('m-leads').textContent = leads;
+  document.getElementById('m-rev').textContent = '$'+rev.toLocaleString();
+  document.getElementById('m-rev-d').textContent = '↑ '+Math.round(rev/1000*10)/10+'k this month';
+  document.getElementById('m-active-d').textContent = '↑ '+active+' active jobs';
+
+  // Pipeline stage counts
+  ['New Lead','Estimate Sent','Scheduled','In Progress','Complete','Follow-Up'].forEach((s,i)=>{
+    const key=['ps-new','ps-est','ps-sch','ps-ip','ps-done','ps-fu'][i];
+    const el=document.getElementById(key);
+    if(el) el.textContent = clients.filter(c=>c.stage===s).length;
+  });
+
+  // sidebar rev
+  document.getElementById('sb-rev').textContent = '$'+rev.toLocaleString();
+  document.getElementById('sb-rev-delta').textContent = '↑ 18% vs last month';
+
+  // YTD
+  const ytd = revData.reduce((s,d)=>s+d.v,0);
+  document.getElementById('ytdRev').textContent = '$'+ytd.toLocaleString();
+}
+
+function renderSidebar(){
+  const stages = ['New Lead','Estimate Sent','Scheduled','In Progress','Complete','Follow-Up'];
+  const keys = ['sb-new','sb-est','sb-sch','sb-ip','sb-done','sb-fu'];
+  stages.forEach((s,i)=>{
+    const el=document.getElementById(keys[i]);
+    if(el) el.textContent = clients.filter(c=>c.stage===s).length;
+  });
+  document.getElementById('sb-all').textContent = clients.length;
+}
+
+// ══════════════════════════════════════════
+// TABLE RENDER
+// ══════════════════════════════════════════
+function getFiltered(){
+  const q=(document.getElementById('dashSearch')||{value:''}).value.toLowerCase();
+  const st=(document.getElementById('dashStage')||{value:''}).value;
+  const sv=(document.getElementById('dashService')||{value:''}).value;
+  return clients.filter(c=>{
+    const matchQ = !q || c.name.toLowerCase().includes(q)||c.phone.includes(q)||c.service.toLowerCase().includes(q)||c.loc.toLowerCase().includes(q);
+    const matchSt = !st || c.stage===st;
+    const matchSv = !sv || c.service===sv;
+    const matchStF = !activeStageFilter || c.stage===activeStageFilter;
+    const matchSvF = !activeServiceFilter || c.service===activeServiceFilter;
+    return matchQ&&matchSt&&matchSv&&matchStF&&matchSvF;
+  }).sort((a,b)=>{
+    let va=a[sortCol]||'', vb=b[sortCol]||'';
+    if(sortCol==='value'){va=+va;vb=+vb;}
+    return va<vb?sortDir:va>vb?-sortDir:0;
+  });
+}
+
+function stageClass(s){
+  const m={'New Lead':'pill-new','Estimate Sent':'pill-estimate','Scheduled':'pill-scheduled','In Progress':'pill-inprogress','Complete':'pill-complete','Follow-Up':'pill-followup'};
+  return m[s]||'pill-new';
+}
+
+function renderTable(){
+  const data=getFiltered();
+  const tbody=document.getElementById('clientBody');
+  if(!tbody) return;
+  tbody.innerHTML=data.map(c=>`
+    <tr onclick="openDetail(${c.id})">
+      <td><div class="client-name">${c.name}</div><div class="client-sub">${c.phone}</div></td>
+      <td><span class="svc-tag">${c.service}</span><div class="client-sub" style="margin-top:3px;">${c.coating}</div></td>
+      <td><span class="pill ${stageClass(c.stage)}">${c.stage}</span></td>
+      <td><span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--white);">$${c.value.toLocaleString()}</span></td>
+      <td style="color:var(--text2);font-size:12px;">${c.loc}</td>
+      <td style="color:var(--muted);font-size:11px;font-family:'DM Mono',monospace;">${c.date}</td>
+    </tr>`).join('');
+  const footer=document.getElementById('tableFooter');
+  if(footer) footer.textContent = `${data.length} client${data.length!==1?'s':''} shown`;
+}
+
+function renderClientView(){
+  const q=(document.getElementById('clSearch')||{value:''}).value.toLowerCase();
+  const st=(document.getElementById('clStage')||{value:''}).value;
+  const sv=(document.getElementById('clService')||{value:''}).value;
+  const data=clients.filter(c=>{
+    const mq=!q||c.name.toLowerCase().includes(q)||c.phone.includes(q);
+    const ms=!st||c.stage===st;
+    const msv=!sv||c.service===sv;
+    return mq&&ms&&msv;
+  });
+  const tbody=document.getElementById('clientViewBody');
+  if(!tbody) return;
+  tbody.innerHTML=data.map(c=>`
+    <tr onclick="openDetail(${c.id})">
+      <td><div class="client-name">${c.name}</div><div class="client-sub">${c.email}</div></td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;">${c.phone}</td>
+      <td><span class="svc-tag">${c.service}</span></td>
+      <td><span class="pill ${stageClass(c.stage)}">${c.stage}</span></td>
+      <td style="font-family:'DM Mono',monospace;">$${c.value.toLocaleString()}</td>
+      <td style="font-size:12px;color:var(--text2);">${c.loc}</td>
+      <td style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">${c.date}</td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openDetail(${c.id})">Edit</button>
+      </td>
+    </tr>`).join('');
+  const footer=document.getElementById('cvFooter');
+  if(footer) footer.textContent=`${data.length} clients`;
+}
+
+function renderEstimates(){
+  const ests=clients.filter(c=>c.stage==='Estimate Sent');
+  const el=document.getElementById('estimatesBody');
+  if(!el) return;
+  el.innerHTML = ests.length ? ests.map(c=>`
+    <div class="est-card">
+      <div class="est-row">
+        <div>
+          <div class="est-name">${c.name}</div>
+          <div class="est-detail">${c.loc} · ${c.service} · ${c.coating} · ${c.sqft}</div>
+        </div>
+        <div class="est-price">$${c.value.toLocaleString()}</div>
+      </div>
+      <div class="est-detail" style="color:var(--muted);">Sent: ${c.date} · ${c.phone}</div>
+      <div class="est-actions">
+        <button class="btn btn-red btn-sm" onclick="promoteStage(${c.id},'Scheduled')">Mark Scheduled</button>
+        <button class="btn btn-ghost btn-sm" onclick="openDetail(${c.id})">View Details</button>
+      </div>
+    </div>`).join('') : '<div style="color:var(--muted);padding:20px;">No estimates out currently.</div>';
+}
+
+function renderSchedule(){
+  const sched=clients.filter(c=>c.stage==='Scheduled'||c.stage==='In Progress');
+  const el=document.getElementById('scheduleBody');
+  if(!el) return;
+  el.innerHTML = `<table class="client-table" style="width:100%;">
+    <thead><tr><th>Client</th><th>Service</th><th>Coating</th><th>Location</th><th>Job Date</th><th>Value</th><th>Stage</th><th></th></tr></thead>
+    <tbody>${sched.map(c=>`
+      <tr onclick="openDetail(${c.id})">
+        <td><div class="client-name">${c.name}</div><div class="client-sub">${c.phone}</div></td>
+        <td><span class="svc-tag">${c.service}</span></td>
+        <td style="font-size:12px;color:var(--text2);">${c.coating}</td>
+        <td style="font-size:12px;color:var(--text2);">${c.loc}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:12px;">${c.jobDate||'TBD'}</td>
+        <td style="font-family:'DM Mono',monospace;">$${c.value.toLocaleString()}</td>
+        <td><span class="pill ${stageClass(c.stage)}">${c.stage}</span></td>
+        <td><button class="btn btn-red btn-sm" onclick="event.stopPropagation();promoteStage(${c.id},'Complete')">Mark Complete</button></td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+// ══════════════════════════════════════════
+// UPCOMING + ACTIVITY
+// ══════════════════════════════════════════
+function renderUpcoming(){
+  const el=document.getElementById('upcomingJobs');
+  if(!el) return;
+  const jobs=clients.filter(c=>c.jobDate&&c.jobDate>=new Date().toISOString().split('T')[0]).sort((a,b)=>a.jobDate>b.jobDate?1:-1).slice(0,4);
+  el.innerHTML = jobs.length ? jobs.map(c=>{
+    const d=new Date(c.jobDate+'T12:00:00');
+    return `<div class="job-item">
+      <div class="job-date"><div class="job-day">${d.getDate()}</div><div class="job-mo">${d.toLocaleString('default',{month:'short'})}</div></div>
+      <div><div class="job-name">${c.name}</div><div class="job-detail">${c.service} · ${c.loc}</div></div>
+    </div>`;
+  }).join('') : '<div style="color:var(--muted);font-size:13px;">No upcoming jobs scheduled.</div>';
+}
+
+function renderActivity(){
+  const el=document.getElementById('activityFeed');
+  if(!el) return;
+  el.innerHTML = activity.map(a=>`
+    <div class="activity-item">
+      <div class="act-dot" style="background:${a.color};"></div>
+      <div><div class="act-text">${a.text}</div><div class="act-time">${a.time}</div></div>
+    </div>`).join('');
+}
+
+function renderRevChart(){
+  const bars=document.getElementById('revBars');
+  const months=document.getElementById('revMonths');
+  if(!bars||!months) return;
+  const max=Math.max(...revData.map(d=>d.v));
+  const colors=['#2a2a2a','#2a2a2a','#2a2a2a','#2a2a2a','#c0121c','#333'];
+  bars.innerHTML=revData.map((d,i)=>`<div class="rev-bar" style="height:${Math.round(d.v/max*48)}px;background:${colors[i]||'#333'};"></div>`).join('');
+  months.innerHTML=revData.map(d=>`<div class="rev-month">${d.m}</div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// DETAIL MODAL
+// ══════════════════════════════════════════
+function openDetail(id){
+  const c=clients.find(x=>x.id===id);
+  if(!c) return;
+  currentDetailId=id;
+  document.getElementById('detailName').textContent=c.name;
+  document.getElementById('detailGrid').innerHTML=`
+    <div class="modal-field"><label>Phone</label><input value="${c.phone}" id="df-phone"></div>
+    <div class="modal-field"><label>Email</label><input value="${c.email}" id="df-email"></div>
+    <div class="modal-field"><label>Location</label><input value="${c.loc}" id="df-loc"></div>
+    <div class="modal-field"><label>Service</label>
+      <select id="df-service">${['Garage','Patio','Commercial','Tile','Bathroom','Kitchen','Multi-Service'].map(s=>`<option${s===c.service?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="modal-field"><label>Coating System</label>
+      <select id="df-coating">${['Vinyl Flake','Metallic Epoxy','Solid Color','Natural Accent','Multi-Spec','Stain','Polyurea','TBD'].map(s=>`<option${s===c.coating?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="modal-field"><label>Stage</label>
+      <select id="df-stage">${['New Lead','Estimate Sent','Scheduled','In Progress','Complete','Follow-Up'].map(s=>`<option${s===c.stage?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="modal-field"><label>Est. Value ($)</label><input type="number" value="${c.value}" id="df-value"></div>
+    <div class="modal-field"><label>Square Footage</label><input value="${c.sqft}" id="df-sqft"></div>
+    <div class="modal-field"><label>Job Date</label><input type="date" value="${c.jobDate}" id="df-jobdate"></div>`;
+  document.getElementById('detailTimeline').innerHTML=c.notes.map((n,i)=>`
+    <div class="timeline-item">
+      <div class="tl-line-wrap">
+        <div class="tl-dot" style="background:${i===0?'var(--red)':'var(--border2)'};"></div>
+        ${i<c.notes.length-1?'<div class="tl-line"></div>':''}
+      </div>
+      <div>
+        <div class="tl-meta">${n.time}</div>
+        <div class="tl-text">${n.text}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function saveDetail(){
+  const c=clients.find(x=>x.id===currentDetailId);
+  if(!c) return;
+  c.phone=document.getElementById('df-phone').value;
+  c.email=document.getElementById('df-email').value;
+  c.loc=document.getElementById('df-loc').value;
+  c.service=document.getElementById('df-service').value;
+  c.coating=document.getElementById('df-coating').value;
+  c.stage=document.getElementById('df-stage').value;
+  c.value=+document.getElementById('df-value').value||c.value;
+  c.sqft=document.getElementById('df-sqft').value;
+  c.jobDate=document.getElementById('df-jobdate').value;
+  refreshMetrics();renderTable();renderSidebar();renderClientView();renderUpcoming();
+  activity.unshift({text:`Updated — ${c.name} (${c.stage})`,time:'Just now',color:'#c0121c'});
+  renderActivity();
+  closeDetailDirect();
+  showToast('Client updated successfully');
+}
+
+function addNote(){
+  const inp=document.getElementById('noteInput');
+  const txt=inp.value.trim();
+  if(!txt) return;
+  const c=clients.find(x=>x.id===currentDetailId);
+  if(!c) return;
+  c.notes.unshift({text:txt,time:new Date().toISOString().split('T')[0]});
+  inp.value='';
+  openDetail(currentDetailId);
+  showToast('Note added');
+}
+
+function closeDetail(e){ if(e.target.id==='detailOverlay') closeDetailDirect(); }
+function closeDetailDirect(){ document.getElementById('detailOverlay').classList.remove('open'); currentDetailId=null; }
+
+// ══════════════════════════════════════════
+// ADD CLIENT
+// ══════════════════════════════════════════
+function openAdd(){ document.getElementById('addOverlay').classList.add('open'); }
+function closeAdd(e){ if(e.target.id==='addOverlay') closeAddDirect(); }
+function closeAddDirect(){ document.getElementById('addOverlay').classList.remove('open'); }
+
+function addClient(){
+  const name=document.getElementById('af-name').value.trim();
+  const phone=document.getElementById('af-phone').value.trim();
+  if(!name||!phone){ showToast('Name and phone required','red'); return; }
+  const newC={
+    id:Date.now(),
+    name,phone,
+    email:document.getElementById('af-email').value,
+    loc:document.getElementById('af-loc').value||'Austin, TX',
+    service:document.getElementById('af-service').value,
+    coating:document.getElementById('af-coating').value,
+    stage:document.getElementById('af-stage').value,
+    value:+document.getElementById('af-value').value||0,
+    sqft:document.getElementById('af-sqft').value,
+    date:new Date().toISOString().split('T')[0],
+    jobDate:document.getElementById('af-date').value,
+    notes:[{text:document.getElementById('af-notes').value||'New client added.',time:new Date().toISOString().split('T')[0]}]
+  };
+  clients.unshift(newC);
+  activity.unshift({text:`New client — ${name} (${newC.service})`,time:'Just now',color:'#2563eb'});
+  refreshMetrics();renderTable();renderSidebar();renderClientView();renderUpcoming();renderActivity();
+  closeAddDirect();
+  showToast(`${name} added to pipeline`);
+  ['af-name','af-phone','af-email','af-loc','af-sqft','af-notes','af-value'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+}
+
+// ══════════════════════════════════════════
+// FILTERS / SORT / UTILS
+// ══════════════════════════════════════════
+function filterByStage(s){
+  activeStageFilter=s; activeServiceFilter='';
+  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  switchView('dashboard',document.querySelector('.nav-tab'));
+  renderTable();
+}
+function filterByService(s){
+  activeServiceFilter=s; activeStageFilter='';
+  renderTable();
+}
+function sortBy(col){
+  if(sortCol===col) sortDir*=-1;
+  else { sortCol=col; sortDir=-1; }
+  renderTable();
+}
+function promoteStage(id, stage){
+  const c=clients.find(x=>x.id===id);
+  if(!c) return;
+  c.stage=stage;
+  c.notes.unshift({text:`Stage updated to: ${stage}`,time:new Date().toISOString().split('T')[0]});
+  activity.unshift({text:`${c.name} → ${stage}`,time:'Just now',color:'#16a34a'});
+  refreshMetrics();renderTable();renderSidebar();renderClientView();renderEstimates();renderSchedule();renderActivity();
+  showToast(`${c.name} moved to ${stage}`);
+}
+function exportCSV(){
+  const rows=[['Name','Phone','Email','Location','Service','Coating','Stage','Value','Sq Ft','Date','Job Date']];
+  clients.forEach(c=>rows.push([c.name,c.phone,c.email,c.loc,c.service,c.coating,c.stage,c.value,c.sqft,c.date,c.jobDate]));
+  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='pct-clients.csv';a.click();
+  showToast('CSV exported');
+}
+
+// ══════════════════════════════════════════
+// VIEW SWITCHING
+// ══════════════════════════════════════════
+function switchView(view, btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const el=document.getElementById('view-'+view);
+  if(el) el.classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(view==='clients') renderClientView();
+  if(view==='estimates') renderEstimates();
+  if(view==='schedule') renderSchedule();
+}
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function showToast(msg, type='green'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(type==='red'?' red':'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+init();
+</script>
+</body>
+</html>
