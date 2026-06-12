@@ -333,7 +333,69 @@ body::before{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;
 }
 
 /* RESPONSIVE */
-@media(max-width:1280px){.metrics-row{grid-template-columns:repeat(3,1fr);}.two-col{grid-template-columns:1fr;}.right-stack{display:grid;grid-template-columns:1fr 1fr 1fr;}}
+/* ── HEATMAP ── */
+.hm-wrap{display:grid;grid-template-columns:1fr 300px;gap:14px;height:calc(100vh - 140px);}
+.hm-map-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;position:relative;display:flex;flex-direction:column;}
+.hm-map-hdr{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--card2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.hm-map-body{flex:1;position:relative;overflow:hidden;}
+#hmSvg{width:100%;height:100%;display:block;}
+.hm-city-bubble{cursor:pointer;transition:all .25s;}
+.hm-city-bubble circle.ring{fill:none;stroke-width:1.5;animation:hm-pulse 2.8s ease-in-out infinite;}
+@keyframes hm-pulse{0%,100%{opacity:.5;r:attr(data-base);}50%{opacity:.15;}}
+.hm-city-bubble:hover circle.dot{filter:brightness(1.3);}
+.hm-city-bubble text{pointer-events:none;font-family:'Outfit',sans-serif;font-weight:600;fill:var(--white);font-size:11px;}
+.hm-city-bubble text.count-lbl{font-size:13px;font-weight:800;fill:#fff;}
+.hm-tooltip{position:absolute;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;pointer-events:none;z-index:10;min-width:160px;box-shadow:0 12px 32px rgba(0,0,0,0.5);transition:opacity .15s;}
+.hm-tooltip.hidden{opacity:0;}
+.hm-tt-city{font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;}
+.hm-tt-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text);margin-bottom:3px;}
+.hm-tt-val{font-weight:600;color:var(--chrome2);font-family:var(--mono);}
+.hm-tt-divider{height:1px;background:var(--border);margin:8px 0;}
+
+.hm-right{display:flex;flex-direction:column;gap:12px;overflow-y:auto;}
+.hm-right::-webkit-scrollbar{width:3px;}
+.hm-legend-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;flex-shrink:0;}
+.hm-legend-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--chrome);margin-bottom:12px;}
+.hm-legend-scale{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.hm-legend-bar{flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,rgba(212,20,31,0.15),rgba(212,20,31,0.5),rgba(212,20,31,0.9),#ff1c28);}
+.hm-legend-lbl{font-size:10px;color:var(--muted);font-family:var(--mono);}
+.hm-legend-items{display:flex;flex-direction:column;gap:6px;}
+.hm-legend-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);}
+.hm-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+.hm-stats-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;flex-shrink:0;}
+.hm-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.hm-stat:last-child{border-bottom:none;}
+.hm-stat-lbl{color:var(--muted);}
+.hm-stat-val{font-weight:700;color:var(--white);font-family:var(--mono);}
+
+.hm-city-list{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;flex:1;}
+.hm-city-list-hdr{padding:12px 14px;border-bottom:1px solid var(--border);background:var(--card2);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--chrome);}
+.hm-city-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.hm-city-row:last-child{border-bottom:none;}
+.hm-city-row:hover{background:rgba(212,20,31,0.05);}
+.hm-city-row.active{background:var(--red-dim);border-left:2px solid var(--red);}
+.hm-city-rank{font-size:11px;color:var(--muted);font-family:var(--mono);min-width:22px;}
+.hm-city-name{flex:1;font-size:13px;font-weight:600;color:var(--white);}
+.hm-city-bar-wrap{width:80px;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.hm-city-bar{height:100%;border-radius:3px;background:var(--red);transition:width .5s cubic-bezier(.22,1,.36,1);}
+.hm-city-count{font-size:12px;font-weight:700;color:var(--red2);font-family:var(--mono);min-width:28px;text-align:right;}
+
+.hm-filter-active{background:var(--red-dim);border:1px solid rgba(212,20,31,0.35);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--red2);display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.hm-filter-clear{background:none;border:none;color:var(--red2);cursor:pointer;font-size:16px;font-family:var(--font);}
+
+/* map controls */
+.hm-controls{position:absolute;bottom:14px;left:14px;display:flex;gap:6px;z-index:5;}
+.hm-ctrl-btn{background:var(--card2);border:1px solid var(--border2);border-radius:7px;color:var(--chrome);font-size:14px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+.hm-ctrl-btn:hover{background:var(--red-dim);color:var(--red2);}
+
+/* empty state inside map */
+.hm-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);text-align:center;pointer-events:none;}
+.hm-empty-ico{font-size:40px;margin-bottom:12px;opacity:.4;}
+.hm-empty-ttl{font-size:14px;font-weight:600;color:var(--silver);margin-bottom:6px;}
+.hm-empty-sub{font-size:12px;line-height:1.7;max-width:220px;}
+
+@media(max-width:1080px){.hm-wrap{grid-template-columns:1fr;height:auto;}.hm-map-panel{height:400px;}.hm-right{display:grid;grid-template-columns:1fr 1fr;}}.two-col{grid-template-columns:1fr;}.right-stack{display:grid;grid-template-columns:1fr 1fr 1fr;}}
 @media(max-width:1000px){.sidebar{display:none;}.metrics-row{grid-template-columns:1fr 1fr;}.top-nav{position:static;transform:none;}.brand-wrap{width:auto;}}
 @media(max-width:700px){.field-grid{grid-template-columns:1fr;}.field.full{grid-column:span 1;}.right-stack{grid-template-columns:1fr;}.modal,.modal-sm{width:calc(100vw - 20px);}}
 </style>
@@ -361,6 +423,7 @@ body::before{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;
     <button class="nav-tab" onclick="switchView('estimates',this)">Estimates</button>
     <button class="nav-tab" onclick="switchView('schedule',this)">Schedule</button>
     <button class="nav-tab" onclick="switchView('invoices',this)">🧾 Invoices</button>
+    <button class="nav-tab" onclick="switchView('heatmap',this)">📍 Job Map</button>
   </div>
 
   <div class="top-right">
@@ -571,6 +634,169 @@ body::before{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;
         </div>
       </div>
       <div id="invoicesBody" style="padding:20px;"></div>
+    </div>
+  </div>
+
+  <!-- HEATMAP -->
+  <div class="view" id="view-heatmap">
+    <div class="hm-wrap">
+
+      <!-- Map panel -->
+      <div class="hm-map-panel">
+        <div class="hm-map-hdr">
+          <span class="panel-title-lg">📍 Job Density — Central Texas</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <div id="hmFilterBadge" style="display:none;" class="hm-filter-active">
+              <span id="hmFilterLbl">All</span>
+              <button class="hm-filter-clear" onclick="clearHmFilter()">✕</button>
+            </div>
+            <select class="filt-sel" id="hmServiceFilter" onchange="renderHeatmap()" style="font-size:11px;">
+              <option value="">All Services</option>
+              <option>Garages</option><option>Patios</option><option>Tile</option>
+              <option>Tubs</option><option>Vanities</option><option>Countertops</option><option>Cabinets</option>
+            </select>
+          </div>
+        </div>
+        <div class="hm-map-body">
+          <svg id="hmSvg" viewBox="0 0 700 520" xmlns="http://www.w3.org/2000/svg">
+            <!-- Central Texas road network background -->
+            <defs>
+              <radialGradient id="mapBg" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stop-color="#1a1d26"/>
+                <stop offset="100%" stop-color="#0e1016"/>
+              </radialGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="softglow">
+                <feGaussianBlur stdDeviation="8" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Map background -->
+            <rect width="700" height="520" fill="url(#mapBg)"/>
+
+            <!-- County grid lines (subtle) -->
+            <g stroke="rgba(255,255,255,0.04)" stroke-width="0.5" fill="none">
+              <line x1="0" y1="130" x2="700" y2="130"/>
+              <line x1="0" y1="260" x2="700" y2="260"/>
+              <line x1="0" y1="390" x2="700" y2="390"/>
+              <line x1="175" y1="0" x2="175" y2="520"/>
+              <line x1="350" y1="0" x2="350" y2="520"/>
+              <line x1="525" y1="0" x2="525" y2="520"/>
+            </g>
+
+            <!-- Major highways -->
+            <g stroke="rgba(255,255,255,0.10)" stroke-width="1.5" fill="none" stroke-linecap="round">
+              <!-- I-35 (runs N-S through Austin) -->
+              <path d="M 340 30 L 342 120 L 348 200 L 352 280 L 355 360 L 358 490"/>
+              <!-- US-183 -->
+              <path d="M 100 80 L 200 160 L 310 240 L 360 280 L 420 340 L 500 420"/>
+              <!-- TX-130 (toll) -->
+              <path d="M 420 30 L 430 130 L 440 230 L 445 330 L 450 430 L 455 510"/>
+              <!-- Loop 1 (Mopac) -->
+              <path d="M 290 80 L 295 160 L 300 240 L 308 310 L 320 370"/>
+              <!-- US-290 (E-W) -->
+              <path d="M 30 230 L 150 235 L 270 240 L 350 245 L 480 248 L 650 250"/>
+              <!-- TX-71 -->
+              <path d="M 200 340 L 300 320 L 360 310 L 450 300 L 580 285"/>
+              <!-- US-183A north -->
+              <path d="M 230 30 L 240 100 L 255 170 L 270 230"/>
+              <!-- SH-45 -->
+              <path d="M 180 310 L 270 315 L 352 318 L 450 320 L 540 318"/>
+            </g>
+
+            <!-- Highway labels -->
+            <g fill="rgba(255,255,255,0.18)" font-family="DM Mono,monospace" font-size="8" font-weight="600">
+              <text x="345" y="25" text-anchor="middle">I-35</text>
+              <text x="448" y="25" text-anchor="middle">TX-130</text>
+              <text x="285" y="75" text-anchor="middle">Mopac</text>
+              <text x="650" y="244">US-290</text>
+            </g>
+
+            <!-- Bubble layer (rendered by JS) -->
+            <g id="hmBubbles"></g>
+
+            <!-- Compass rose -->
+            <g transform="translate(650,50)" fill="rgba(255,255,255,0.25)" font-family="Outfit,sans-serif" font-size="9" font-weight="700">
+              <text x="0" y="-14" text-anchor="middle" fill="rgba(255,255,255,0.5)">N</text>
+              <path d="M0,-10 L3,0 L0,4 L-3,0 Z" fill="rgba(255,255,255,0.4)"/>
+              <circle cx="0" cy="0" r="14" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            </g>
+
+            <!-- Scale bar -->
+            <g transform="translate(20,490)">
+              <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+              <line x1="0" y1="-4" x2="0" y2="4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+              <line x1="60" y1="-4" x2="60" y2="4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+              <text x="30" y="-7" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="DM Mono,monospace" font-size="8">~25 mi</text>
+            </g>
+          </svg>
+
+          <!-- Tooltip -->
+          <div class="hm-tooltip hidden" id="hmTooltip">
+            <div class="hm-tt-city" id="hmTtCity">Austin</div>
+            <div class="hm-tt-divider"></div>
+            <div class="hm-tt-row"><span>Jobs</span><span class="hm-tt-val" id="hmTtJobs">0</span></div>
+            <div class="hm-tt-row"><span>Revenue</span><span class="hm-tt-val" id="hmTtRev">$0</span></div>
+            <div class="hm-tt-row"><span>Top Service</span><span class="hm-tt-val" id="hmTtSvc">—</span></div>
+            <div class="hm-tt-row"><span>Avg Value</span><span class="hm-tt-val" id="hmTtAvg">$0</span></div>
+          </div>
+
+          <!-- Empty state (shown when no clients) -->
+          <div class="hm-empty" id="hmEmpty">
+            <div class="hm-empty-ico">📍</div>
+            <div class="hm-empty-ttl">No job data yet</div>
+            <div class="hm-empty-sub">Add clients with Austin-area locations to see the density map populate.</div>
+          </div>
+
+          <!-- Map controls -->
+          <div class="hm-controls">
+            <button class="hm-ctrl-btn" onclick="hmZoom(1.25)" title="Zoom in">＋</button>
+            <button class="hm-ctrl-btn" onclick="hmZoom(0.8)" title="Zoom out">－</button>
+            <button class="hm-ctrl-btn" onclick="hmReset()" title="Reset view">⊙</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="hm-right">
+
+        <!-- Stats -->
+        <div class="hm-stats-panel">
+          <div class="hm-legend-title">Service Area Stats</div>
+          <div class="hm-stat"><span class="hm-stat-lbl">Total Mapped Jobs</span><span class="hm-stat-val" id="hmStatTotal">0</span></div>
+          <div class="hm-stat"><span class="hm-stat-lbl">Cities / Areas Served</span><span class="hm-stat-val" id="hmStatCities">0</span></div>
+          <div class="hm-stat"><span class="hm-stat-lbl">Hottest Area</span><span class="hm-stat-val" id="hmStatHot">—</span></div>
+          <div class="hm-stat"><span class="hm-stat-lbl">Total Pipeline Value</span><span class="hm-stat-val" id="hmStatRev">$0</span></div>
+          <div class="hm-stat"><span class="hm-stat-lbl">Avg Jobs / City</span><span class="hm-stat-val" id="hmStatAvg">0</span></div>
+        </div>
+
+        <!-- Legend -->
+        <div class="hm-legend-panel">
+          <div class="hm-legend-title">Density Legend</div>
+          <div class="hm-legend-scale">
+            <span class="hm-legend-lbl">Low</span>
+            <div class="hm-legend-bar"></div>
+            <span class="hm-legend-lbl">High</span>
+          </div>
+          <div class="hm-legend-items">
+            <div class="hm-legend-row"><div class="hm-legend-dot" style="background:rgba(212,20,31,0.35);width:8px;height:8px;"></div>1–2 jobs</div>
+            <div class="hm-legend-row"><div class="hm-legend-dot" style="background:rgba(212,20,31,0.6);width:10px;height:10px;"></div>3–5 jobs</div>
+            <div class="hm-legend-row"><div class="hm-legend-dot" style="background:rgba(212,20,31,0.85);width:13px;height:13px;"></div>6–10 jobs</div>
+            <div class="hm-legend-row"><div class="hm-legend-dot" style="background:#ff1c28;width:16px;height:16px;box-shadow:0 0 8px rgba(212,20,31,0.6);"></div>10+ jobs</div>
+          </div>
+          <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.6;">Click any bubble to filter the client table to that area. Bubble size scales with job count.</div>
+        </div>
+
+        <!-- City rankings -->
+        <div class="hm-city-list">
+          <div class="hm-city-list-hdr">Top Areas by Job Count</div>
+          <div id="hmCityList"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1044,6 +1270,7 @@ function switchView(view,btn){
   if(view==='estimates')renderEstimates();
   if(view==='schedule')renderSchedule();
   if(view==='invoices')renderInvoicesView();
+  if(view==='heatmap')renderHeatmap();
 }
 
 function showToast(msg,type='green'){
@@ -1819,6 +2046,286 @@ function downloadTemplate(){
   a.click();
   showToast('Template downloaded');
 }
+
+// ══════════════════════════════════════════
+// HEATMAP ENGINE
+// ══════════════════════════════════════════
+
+// City coordinates mapped to SVG viewBox (0 0 700 520)
+// Centered on Austin metro — Hutto is PCT's home base
+const CITY_COORDS = {
+  'Austin':        {x:348, y:258, aliases:['austin','atx']},
+  'Hutto':         {x:432, y:195, aliases:['hutto']},
+  'Round Rock':    {x:368, y:185, aliases:['round rock','rr']},
+  'Cedar Park':    {x:298, y:172, aliases:['cedar park']},
+  'Pflugerville':  {x:408, y:210, aliases:['pflugerville','pflu']},
+  'Georgetown':    {x:330, y:132, aliases:['georgetown']},
+  'Leander':       {x:278, y:150, aliases:['leander']},
+  'Kyle':          {x:352, y:340, aliases:['kyle']},
+  'Buda':          {x:340, y:368, aliases:['buda']},
+  'San Marcos':    {x:355, y:420, aliases:['san marcos']},
+  'Manor':         {x:445, y:245, aliases:['manor']},
+  'Elgin':         {x:510, y:230, aliases:['elgin']},
+  'Taylor':        {x:490, y:165, aliases:['taylor']},
+  'Bastrop':       {x:530, y:305, aliases:['bastrop']},
+  'Lockhart':      {x:458, y:380, aliases:['lockhart']},
+  'Marble Falls':  {x:148, y:230, aliases:['marble falls']},
+  'Lakeway':       {x:248, y:275, aliases:['lakeway']},
+  'Bee Cave':      {x:240, y:288, aliases:['bee cave']},
+  'Dripping Springs':{x:210, y:310, aliases:['dripping springs','dripping']},
+  'Wimberley':     {x:270, y:395, aliases:['wimberley']},
+  'Spicewood':     {x:192, y:248, aliases:['spicewood']},
+  'Liberty Hill':  {x:252, y:128, aliases:['liberty hill']},
+  'Florence':      {x:320, y:98,  aliases:['florence']},
+  'Jollyville':    {x:306, y:208, aliases:['jollyville']},
+  'Wells Branch':  {x:348, y:198, aliases:['wells branch']},
+  'Sunset Valley': {x:316, y:270, aliases:['sunset valley']},
+  'Rollingwood':   {x:308, y:265, aliases:['rollingwood']},
+  'Other':         {x:570, y:420, aliases:[]},
+};
+
+let hmScale=1, hmTx=0, hmTy=0, hmActiveCity=null;
+
+function cityFromLoc(loc){
+  if(!loc) return 'Other';
+  const l = loc.toLowerCase();
+  for(const [city, data] of Object.entries(CITY_COORDS)){
+    if(city==='Other') continue;
+    if(l.includes(city.toLowerCase())) return city;
+    for(const alias of data.aliases){
+      if(l.includes(alias)) return city;
+    }
+  }
+  return 'Other';
+}
+
+function renderHeatmap(){
+  const svcFilter = (document.getElementById('hmServiceFilter')||{value:''}).value;
+  const filtered = clients.filter(c=> !svcFilter || c.service===svcFilter);
+
+  // Aggregate by city
+  const cityData = {};
+  filtered.forEach(c=>{
+    const city = cityFromLoc(c.loc);
+    if(!cityData[city]) cityData[city]={count:0,revenue:0,services:{},clients:[]};
+    cityData[city].count++;
+    cityData[city].revenue += c.value||0;
+    cityData[city].services[c.service] = (cityData[city].services[c.service]||0)+1;
+    cityData[city].clients.push(c);
+  });
+
+  const totalJobs = filtered.length;
+  const cities = Object.entries(cityData).filter(([,d])=>d.count>0);
+  const maxCount = cities.length ? Math.max(...cities.map(([,d])=>d.count)) : 1;
+
+  // Show/hide empty state
+  document.getElementById('hmEmpty').style.display = cities.length ? 'none' : 'flex';
+
+  // Update stats
+  document.getElementById('hmStatTotal').textContent = totalJobs;
+  document.getElementById('hmStatCities').textContent = cities.length;
+  const hotCity = cities.sort((a,b)=>b[1].count-a[1].count)[0];
+  document.getElementById('hmStatHot').textContent = hotCity ? hotCity[0] : '—';
+  document.getElementById('hmStatRev').textContent = '$' + filtered.reduce((s,c)=>s+(c.value||0),0).toLocaleString();
+  document.getElementById('hmStatAvg').textContent = cities.length ? (totalJobs/cities.length).toFixed(1) : '0';
+
+  // Render bubbles
+  const bubblesG = document.getElementById('hmBubbles');
+  bubblesG.innerHTML = '';
+
+  cities.sort((a,b)=>a[1].count-b[1].count).forEach(([city, data])=>{
+    const coords = CITY_COORDS[city] || CITY_COORDS['Other'];
+    const ratio = data.count / maxCount;
+    const baseR = 14 + ratio * 38;         // 14px min → 52px max
+    const ringR = baseR + 8 + ratio * 10;
+    const opacity = 0.25 + ratio * 0.75;
+
+    // Color: low = dim red, high = bright red with glow
+    const alpha = Math.round((0.3 + ratio * 0.7) * 255).toString(16).padStart(2,'0');
+    const col = `#ff1c28${alpha}`;
+    const strokeCol = `rgba(255,28,40,${0.2 + ratio * 0.5})`;
+
+    const topSvc = Object.entries(data.services).sort((a,b)=>b[1]-a[1])[0]?.[0] || '—';
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('class','hm-city-bubble');
+    g.setAttribute('data-city', city);
+    g.setAttribute('transform', `translate(${coords.x},${coords.y})`);
+
+    // Glow circle (behind)
+    const glow = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    glow.setAttribute('r', baseR + 4);
+    glow.setAttribute('fill', `rgba(212,20,31,${0.08 + ratio * 0.15})`);
+    glow.setAttribute('filter','url(#softglow)');
+
+    // Pulse ring
+    const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    ring.setAttribute('class','ring');
+    ring.setAttribute('r', ringR);
+    ring.setAttribute('stroke', strokeCol);
+    ring.setAttribute('fill','none');
+    ring.setAttribute('stroke-width','1.5');
+    ring.style.animation = `hm-pulse ${2.2 + Math.random()*1.2}s ease-in-out infinite`;
+    ring.style.animationDelay = `${Math.random()*2}s`;
+
+    // Main dot
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('class','dot');
+    dot.setAttribute('r', baseR);
+    dot.setAttribute('fill', col);
+    dot.setAttribute('stroke','rgba(255,255,255,0.15)');
+    dot.setAttribute('stroke-width','1');
+
+    // Count label
+    const countTxt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    countTxt.setAttribute('class','count-lbl');
+    countTxt.setAttribute('text-anchor','middle');
+    countTxt.setAttribute('dominant-baseline','central');
+    countTxt.setAttribute('y', baseR > 22 ? '-5' : '0');
+    countTxt.setAttribute('font-size', baseR > 24 ? '14' : '11');
+    countTxt.textContent = data.count;
+
+    // City name label (only for larger bubbles)
+    const nameTxt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    nameTxt.setAttribute('text-anchor','middle');
+    nameTxt.setAttribute('y', baseR > 22 ? '9' : baseR + 14);
+    nameTxt.setAttribute('font-size', baseR > 22 ? '9' : '10');
+    nameTxt.setAttribute('fill', baseR > 22 ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.6)');
+    nameTxt.setAttribute('font-family', 'Outfit,sans-serif');
+    nameTxt.textContent = city === 'Other' ? 'Other' : (city.length > 10 ? city.split(' ')[0] : city);
+
+    g.appendChild(glow);
+    g.appendChild(ring);
+    g.appendChild(dot);
+    g.appendChild(countTxt);
+    g.appendChild(nameTxt);
+
+    // Active state
+    if(hmActiveCity === city){
+      dot.setAttribute('stroke','rgba(255,255,255,0.7)');
+      dot.setAttribute('stroke-width','2.5');
+    }
+
+    // Events
+    g.addEventListener('mouseenter', e => showHmTooltip(e, city, data, topSvc));
+    g.addEventListener('mousemove',  e => moveHmTooltip(e));
+    g.addEventListener('mouseleave', () => hideHmTooltip());
+    g.addEventListener('click', () => hmCityClick(city, data));
+
+    bubblesG.appendChild(g);
+  });
+
+  // Render city list
+  renderHmCityList(cities.sort((a,b)=>b[1].count-a[1].count), maxCount);
+}
+
+function renderHmCityList(cities, maxCount){
+  const el = document.getElementById('hmCityList');
+  if(!cities.length){
+    el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;">No data yet</div>';
+    return;
+  }
+  el.innerHTML = cities.slice(0,12).map(([city,data],i)=>`
+    <div class="hm-city-row${hmActiveCity===city?' active':''}" onclick="hmCityClick('${city}',null)">
+      <span class="hm-city-rank">${i+1}</span>
+      <span class="hm-city-name">${city}</span>
+      <div class="hm-city-bar-wrap"><div class="hm-city-bar" style="width:${Math.round(data.count/maxCount*100)}%"></div></div>
+      <span class="hm-city-count">${data.count}</span>
+    </div>`).join('');
+}
+
+function hmCityClick(city, data){
+  if(hmActiveCity === city){
+    clearHmFilter();
+    return;
+  }
+  hmActiveCity = city;
+  document.getElementById('hmFilterBadge').style.display = 'flex';
+  document.getElementById('hmFilterLbl').textContent = `📍 ${city}`;
+  renderHeatmap();
+  // Filter dashboard client table to this city
+  const dashSearch = document.getElementById('dashSearch');
+  if(dashSearch){ dashSearch.value = city; renderTable(); }
+  // Switch to clients view to show filtered results
+  switchView('clients', document.querySelectorAll('.nav-tab')[1]);
+  const clSearch = document.getElementById('clSearch');
+  if(clSearch){ clSearch.value = city; renderClientView(); }
+  // Come back to heatmap
+  setTimeout(()=>switchView('heatmap', document.querySelectorAll('.nav-tab')[5]), 100);
+  showToast(`Showing ${city} clients`);
+}
+
+function clearHmFilter(){
+  hmActiveCity = null;
+  document.getElementById('hmFilterBadge').style.display = 'none';
+  const dashSearch = document.getElementById('dashSearch');
+  if(dashSearch) dashSearch.value = '';
+  renderHeatmap();
+  renderTable();
+  showToast('Filter cleared');
+}
+
+function showHmTooltip(e, city, data, topSvc){
+  const tt = document.getElementById('hmTooltip');
+  const avg = data.count ? Math.round(data.revenue/data.count) : 0;
+  document.getElementById('hmTtCity').textContent = city;
+  document.getElementById('hmTtJobs').textContent = data.count;
+  document.getElementById('hmTtRev').textContent = '$' + data.revenue.toLocaleString();
+  document.getElementById('hmTtSvc').textContent = topSvc;
+  document.getElementById('hmTtAvg').textContent = '$' + avg.toLocaleString();
+  tt.classList.remove('hidden');
+  moveHmTooltip(e);
+}
+function moveHmTooltip(e){
+  const tt = document.getElementById('hmTooltip');
+  const panel = document.querySelector('.hm-map-body').getBoundingClientRect();
+  let x = e.clientX - panel.left + 14;
+  let y = e.clientY - panel.top - 20;
+  if(x + 175 > panel.width) x -= 190;
+  if(y + 160 > panel.height) y -= 160;
+  tt.style.left = x + 'px';
+  tt.style.top  = y + 'px';
+}
+function hideHmTooltip(){
+  document.getElementById('hmTooltip').classList.add('hidden');
+}
+
+// Pan/zoom via SVG viewBox
+let _hmVB = {x:0,y:0,w:700,h:520};
+function hmZoom(factor){
+  const cx=350, cy=260;
+  _hmVB.x = cx - (cx-_hmVB.x)*factor;
+  _hmVB.y = cy - (cy-_hmVB.y)*factor;
+  _hmVB.w *= factor;
+  _hmVB.h *= factor;
+  _hmApplyVB();
+}
+function hmReset(){ _hmVB={x:0,y:0,w:700,h:520}; _hmApplyVB(); }
+function _hmApplyVB(){
+  document.getElementById('hmSvg').setAttribute('viewBox',`${_hmVB.x} ${_hmVB.y} ${_hmVB.w} ${_hmVB.h}`);
+}
+
+// Drag to pan
+(function(){
+  let drag=false, sx=0, sy=0, ox=0, oy=0;
+  const getSvg = ()=>document.getElementById('hmSvg');
+  document.addEventListener('mousedown', e=>{
+    if(!e.target.closest('#hmSvg')) return;
+    if(e.target.closest('.hm-city-bubble')) return;
+    drag=true; sx=e.clientX; sy=e.clientY; ox=_hmVB.x; oy=_hmVB.y;
+    getSvg().style.cursor='grabbing';
+  });
+  document.addEventListener('mousemove', e=>{
+    if(!drag) return;
+    const svg=getSvg();
+    const rect=svg.getBoundingClientRect();
+    const scaleX=_hmVB.w/rect.width, scaleY=_hmVB.h/rect.height;
+    _hmVB.x = ox - (e.clientX-sx)*scaleX;
+    _hmVB.y = oy - (e.clientY-sy)*scaleY;
+    _hmApplyVB();
+  });
+  document.addEventListener('mouseup', ()=>{ drag=false; const s=document.getElementById('hmSvg'); if(s)s.style.cursor=''; });
+})();
 
 init();
 </script>
